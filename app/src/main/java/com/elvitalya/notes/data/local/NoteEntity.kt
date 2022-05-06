@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity
 data class NoteEntity(
-    @PrimaryKey val id: UUID = UUID.randomUUID(),
+    @PrimaryKey val id: Int,
     val title: String,
     val description: String,
     val date: Date

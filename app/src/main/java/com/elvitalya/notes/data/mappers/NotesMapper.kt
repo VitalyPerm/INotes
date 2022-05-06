@@ -8,6 +8,7 @@ import com.elvitalya.notes.util.toDate
 
 fun NoteEntity.toNote(): Note =
     Note(
+        id = id,
         title = title,
         description = description,
         date = date.format()
@@ -16,6 +17,7 @@ fun NoteEntity.toNote(): Note =
 
 fun Note.toNoteEntity(): NoteEntity =
     NoteEntity(
+        id = id,
         title = title,
         description = description,
         date = date.toDate()

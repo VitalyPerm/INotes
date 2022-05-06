@@ -9,10 +9,12 @@ interface NotesRepository {
 
     suspend fun getNotes(): Flow<Resource<List<Note>>>
 
-    suspend fun getNote(id: UUID): Resource<Note>
+    suspend fun getNote(id: Int): Resource<Note>
 
     suspend fun updateNote(note: Note)
 
     suspend fun addNote(note: Note)
+
+    suspend fun deleteNote(note: Note)
 
 }

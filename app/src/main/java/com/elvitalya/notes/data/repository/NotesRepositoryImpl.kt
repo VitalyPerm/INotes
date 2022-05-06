@@ -35,7 +35,7 @@ class NotesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getNote(id: UUID): Resource<Note> = withContext(Dispatchers.IO) {
+    override suspend fun getNote(id: Int): Resource<Note> = withContext(Dispatchers.IO) {
         return@withContext Resource.Success(data = dao.getNote(id).toNote())
     }
 
@@ -45,5 +45,9 @@ class NotesRepositoryImpl @Inject constructor(
 
     override suspend fun addNote(note: Note) = withContext(Dispatchers.IO) {
         dao.addNote(note.toNoteEntity())
+    }
+
+    override suspend fun deleteNote(note: Note) = withContext(Dispatchers.IO) {
+        dao.deleteNote(note.toNoteEntity())
     }
 }

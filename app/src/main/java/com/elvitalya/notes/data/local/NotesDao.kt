@@ -1,10 +1,8 @@
 package com.elvitalya.notes.data.local
 
-import androidx.room.Dao
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
-import androidx.room.Update
+import com.elvitalya.notes.domain.model.Note
 import java.util.*
 
 @Dao
@@ -15,12 +13,15 @@ interface NotesDao {
 
 
     @Query("SELECT * FROM noteentity WHERE id=(:id)")
-    suspend fun getNote(id: UUID): NoteEntity
+    suspend fun getNote(id: Int): NoteEntity
 
     @Update
     suspend fun updateNote(note: NoteEntity)
 
     @Insert(onConflict = REPLACE)
     suspend fun addNote(note: NoteEntity)
+
+    @Delete
+    suspend fun deleteNote(note: NoteEntity)
 
 }
