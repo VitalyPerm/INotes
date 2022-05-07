@@ -10,8 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,7 +49,7 @@ fun NotesListScreen(
                 title = stringResource(id = R.string.note_list_title),
                 actions = {
                     IconButton(onClick = {
-                          navigator.navigate(NoteInfoScreenDestination(Note()))
+                        navigator.navigate(NoteInfoScreenDestination(Note()))
                     }) {
                         Icon(
                             imageVector = Icons.Default.Add,
@@ -91,6 +90,18 @@ fun NoteItem(
     onClickDelete: (Note) -> Unit = {},
     onClick: (Note) -> Unit = {}
 ) {
+
+    var dialogState by remember {
+        mutableStateOf(false)
+    }
+
+    DeleteNoteAlertDialog(
+        dialogState = dialogState,
+        onDismissRequest = {
+            dialogState = !it
+        },
+        onClickYes = { onClickDelete(note) })
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -121,7 +132,7 @@ fun NoteItem(
             IconButton(
                 modifier = Modifier
                     .align(Alignment.CenterEnd),
-                onClick = { onClickDelete.invoke(note) }
+                onClick = { dialogState = true }
             ) {
                 Image(
                     imageVector = Icons.Default.Delete,
