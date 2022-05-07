@@ -5,7 +5,6 @@ import com.elvitalya.notes.data.mappers.toNote
 import com.elvitalya.notes.data.mappers.toNoteEntity
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.domain.repository.NotesRepository
-import com.elvitalya.notes.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -22,8 +21,8 @@ class NotesRepositoryImpl @Inject constructor(
         return notesDataSource.getNotes().map { it.toNote() }
     }
 
-    override suspend fun getNote(id: Int): Resource<Note> = withContext(Dispatchers.IO) {
-        return@withContext Resource.Success(data = notesDataSource.getNote(id).toNote())
+    override suspend fun getNote(id: Int): Note = withContext(Dispatchers.IO) {
+        return@withContext notesDataSource.getNote(id).toNote()
     }
 
     override suspend fun updateNote(note: Note) = withContext(Dispatchers.IO) {

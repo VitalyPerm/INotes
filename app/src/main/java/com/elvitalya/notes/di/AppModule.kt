@@ -16,16 +16,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNotesDatabase(app: Application): NotesDataBase {
-        return Room.databaseBuilder(
-            app,
-            NotesDataBase::class.java,
-            "notes_db"
-        ).build()
-    }
-
-    @Provides
-    @Singleton
     fun provideNotesDao(app: Application): NotesDao {
         return Room.databaseBuilder(
             app,
