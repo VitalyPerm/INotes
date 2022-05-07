@@ -39,11 +39,6 @@ fun NotesListScreen(
 
     val state = viewModel.state
 
-    DisposableEffect(key1 = viewModel) {
-        viewModel.fetchNoteList()
-        onDispose { viewModel.stop() }
-    }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -95,11 +90,14 @@ fun NoteItem(
             Text(
                 text = note.title,
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(vertical = 16.dp)
+                    .padding(start = 16.dp, end = 55.dp)
                     .align(Alignment.Center),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
 
             IconButton(
@@ -146,7 +144,7 @@ fun Preview() {
     NoteItem(
         note = Note(
             id = Random.nextInt(),
-            title = "Proverka",
+            title = "Proverkahghhghghghghghghghghghghghghghghghghg",
             description = "tut koroche description",
             date = "22/02/2222 15:55"
         )

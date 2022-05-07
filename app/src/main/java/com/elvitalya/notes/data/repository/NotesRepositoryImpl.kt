@@ -9,8 +9,8 @@ import com.elvitalya.notes.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,18 +21,22 @@ class NotesRepositoryImpl @Inject constructor(
 
     private val dao = db.dao
 
-    override suspend fun getNotes(): Flow<Resource<List<Note>>> {
-        return flow {
+//    override suspend fun getNotes(): Flow<Resource<List<Note>>> {
+//        return flow {
+//
+//            emit(Resource.Loading(true))
+//
+//            emit(Resource.Success(
+//                data = dao.getNotes()
+//                    .map { it.toNote() }
+//            ))
+//
+//            emit(Resource.Loading(false))
+//        }
+//    }
 
-            emit(Resource.Loading(true))
-
-            emit(Resource.Success(
-                data = dao.getNotes()
-                    .map { it.toNote() }
-            ))
-
-            emit(Resource.Loading(false))
-        }
+    override fun getNotes(): Flow<List<Note>> {
+        return dao.getNotes().map { it.toNote() }
     }
 
     override suspend fun getNote(id: Int): Resource<Note> = withContext(Dispatchers.IO) {

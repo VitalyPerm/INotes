@@ -7,7 +7,7 @@ import java.util.*
 
 interface NotesRepository {
 
-    suspend fun getNotes(): Flow<Resource<List<Note>>>
+    fun getNotes(): Flow<List<Note>>
 
     suspend fun getNote(id: Int): Resource<Note>
 

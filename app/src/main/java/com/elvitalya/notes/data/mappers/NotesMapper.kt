@@ -23,5 +23,7 @@ fun Note.toNoteEntity(): NoteEntity =
         date = date.toDate()
     )
 
+fun List<NoteEntity>.toNote() = map { it.toNote() }
+
 
 

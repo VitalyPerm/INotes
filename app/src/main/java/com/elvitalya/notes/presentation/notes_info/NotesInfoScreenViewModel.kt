@@ -1,5 +1,6 @@
 package com.elvitalya.notes.presentation.notes_info
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -23,6 +24,7 @@ class NotesInfoScreenViewModel @Inject constructor(
     private fun insert(note: Note) {
         viewModelScope.launch {
             repository.addNote(note)
+            Log.d(TAG, "insert: $note")
         }
     }
 

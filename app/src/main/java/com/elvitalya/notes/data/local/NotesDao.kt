@@ -2,15 +2,13 @@ package com.elvitalya.notes.data.local
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import com.elvitalya.notes.domain.model.Note
-import java.util.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NotesDao {
 
     @Query("SELECT * FROM noteentity")
-    suspend fun getNotes(): List<NoteEntity>
-
+    fun getNotes(): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM noteentity WHERE id=(:id)")
     suspend fun getNote(id: Int): NoteEntity
