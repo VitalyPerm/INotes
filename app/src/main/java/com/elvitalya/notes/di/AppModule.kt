@@ -2,6 +2,7 @@ package com.elvitalya.notes.di
 
 import android.app.Application
 import androidx.room.Room
+import com.elvitalya.notes.data.local.NotesDao
 import com.elvitalya.notes.data.local.NotesDataBase
 import dagger.Module
 import dagger.Provides
@@ -21,5 +22,15 @@ object AppModule {
             NotesDataBase::class.java,
             "notes_db"
         ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotesDao(app: Application): NotesDao {
+        return Room.databaseBuilder(
+            app,
+            NotesDataBase::class.java,
+            "notes_db"
+        ).build().dao
     }
 }
