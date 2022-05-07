@@ -91,7 +91,7 @@ fun NoteInfoScreen(
                         .fillMaxWidth()
                         .fillMaxHeight(0.85f)
                         .navigationBarsWithImePadding()
-                        .clip(RoundedCornerShape(32.dp))
+                        .clip(RoundedCornerShape(16.dp))
                         .padding(horizontal = 16.dp)
                         .padding(top = 16.dp),
                     value = viewModel.state.description,

@@ -21,7 +21,7 @@ class NotesInfoScreenViewModel @Inject constructor(
 
     private var firstLaunch = true
 
-    var state by mutableStateOf(NoteInfoState())
+    var state by mutableStateOf(Note())
 
     private fun insert(note: Note) {
         viewModelScope.launch {
@@ -31,7 +31,7 @@ class NotesInfoScreenViewModel @Inject constructor(
 
     private fun getNoteFromArgs(note: Note) {
         if (!firstLaunch) return
-        state = state.copy(title = note.title, description = note.description)
+        state = note
         firstLaunch = false
     }
 
@@ -39,12 +39,7 @@ class NotesInfoScreenViewModel @Inject constructor(
         when (event) {
             is NoteInfoEvent.Insert -> {
                 insert(
-                    Note(
-                        id = Random().nextInt(),
-                        title = state.title,
-                        description = state.description,
-                        date = Date().format()
-                    )
+                    state
                 )
             }
             is NoteInfoEvent.TitleChanged -> {

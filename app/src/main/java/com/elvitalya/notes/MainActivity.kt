@@ -29,10 +29,9 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val systemUiController = rememberSystemUiController()
-            val useDarkIcons = MaterialTheme.colors.isLight
 
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Transparent, darkIcons = useDarkIcons)
+                systemUiController.setSystemBarsColor(Color.Black, darkIcons = false)
             }
 
             NotesTheme {
