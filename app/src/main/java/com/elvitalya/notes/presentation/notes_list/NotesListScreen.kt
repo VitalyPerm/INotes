@@ -2,6 +2,7 @@ package com.elvitalya.notes.presentation.notes_list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,7 +50,7 @@ fun NotesListScreen(
                 title = stringResource(id = R.string.note_list_title),
                 actions = {
                     IconButton(onClick = {
-                        navigator.navigate(NoteInfoScreenDestination())
+                          navigator.navigate(NoteInfoScreenDestination(Note()))
                     }) {
                         Icon(
                             imageVector = Icons.Default.Add,
@@ -69,10 +70,14 @@ fun NotesListScreen(
                 val note = state.notes[i]
 
                 NoteItem(
-                    note = note, onClickDelete = {
+                    note = note,
+                    onClickDelete = {
                         viewModel.onEvent(
                             NotesListEvent.Delete(note = note)
                         )
+                    },
+                    onClick = {
+                        navigator.navigate(NoteInfoScreenDestination(it))
                     }
                 )
             }
@@ -83,7 +88,8 @@ fun NotesListScreen(
 @Composable
 fun NoteItem(
     note: Note,
-    onClickDelete: (Note) -> Unit = {}
+    onClickDelete: (Note) -> Unit = {},
+    onClick: (Note) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -91,6 +97,7 @@ fun NoteItem(
             .padding(16.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(MaterialTheme.colors.background)
+            .clickable { onClick.invoke(note) }
     ) {
 
         Box(

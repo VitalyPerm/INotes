@@ -19,13 +19,20 @@ class NotesInfoScreenViewModel @Inject constructor(
     private val repository: NotesRepository
 ) : ViewModel() {
 
+    private var firstLaunch = true
+
     var state by mutableStateOf(NoteInfoState())
 
     private fun insert(note: Note) {
         viewModelScope.launch {
             repository.addNote(note)
-            Log.d(TAG, "insert: $note")
         }
+    }
+
+    private fun getNoteFromArgs(note: Note) {
+        if (!firstLaunch) return
+        state = state.copy(title = note.title, description = note.description)
+        firstLaunch = false
     }
 
     fun onEvent(event: NoteInfoEvent) {
@@ -46,6 +53,10 @@ class NotesInfoScreenViewModel @Inject constructor(
 
             is NoteInfoEvent.DescriptionChanged -> {
                 state = state.copy(description = event.value)
+            }
+
+            is NoteInfoEvent.GetDataFromArgs -> {
+                getNoteFromArgs(event.value)
             }
         }
     }

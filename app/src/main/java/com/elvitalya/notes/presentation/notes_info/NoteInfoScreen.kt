@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.elvitalya.notes.R
+import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.presentation.TopBar
 import com.elvitalya.notes.presentation.destinations.NoteInfoScreenDestination
 import com.elvitalya.notes.ui.theme.Purple700
@@ -38,10 +39,14 @@ const val TAG = "note_info"
 @Destination
 fun NoteInfoScreen(
     viewModel: NotesInfoScreenViewModel = hiltViewModel(),
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    note: Note
 ) {
-    val state = viewModel.state
+    
+    viewModel.onEvent(NoteInfoEvent.GetDataFromArgs(note))
 
+    Log.d(TAG, "NoteInfoScreen: $note")
+    
     Scaffold(
         topBar = {
             TopBar(title = stringResource(id = R.string.note_detail_title))
@@ -63,7 +68,7 @@ fun NoteInfoScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    value = state.title,
+                    value = viewModel.state.title,
                     onValueChange = {
                         viewModel.onEvent(NoteInfoEvent.TitleChanged(it))
                     },
