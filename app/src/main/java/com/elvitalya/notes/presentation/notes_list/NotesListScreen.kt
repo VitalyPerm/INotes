@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -22,8 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.elvitalya.notes.R
 import com.elvitalya.notes.domain.model.Note
+import com.elvitalya.notes.presentation.TopBar
 import com.elvitalya.notes.presentation.destinations.NoteInfoScreenDestination
+import com.google.accompanist.insets.statusBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -41,18 +45,24 @@ fun NotesListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = "AppBar") },
-                backgroundColor = Color.White,
+            TopBar(
+                title = stringResource(id = R.string.note_list_title),
                 actions = {
                     IconButton(onClick = {
                         navigator.navigate(NoteInfoScreenDestination())
                     }) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "add",
+                            tint = MaterialTheme.colors.secondary,
+                            modifier = Modifier
+                                .padding(end = 12.dp)
+                        )
                     }
                 }
             )
-        }
+        },
+        backgroundColor = MaterialTheme.colors.primary
     ) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.notes.size) { i ->
@@ -80,7 +90,7 @@ fun NoteItem(
             .fillMaxWidth()
             .padding(16.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(Color.Yellow)
+            .background(MaterialTheme.colors.background)
     ) {
 
         Box(
@@ -93,6 +103,7 @@ fun NoteItem(
                     .padding(vertical = 16.dp)
                     .padding(start = 16.dp, end = 55.dp)
                     .align(Alignment.Center),
+                color = MaterialTheme.colors.primary,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -123,7 +134,8 @@ fun NoteItem(
                 .padding(16.dp),
             fontSize = 16.sp,
             maxLines = 3,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            color = MaterialTheme.colors.primary
         )
 
         Text(
@@ -132,7 +144,8 @@ fun NoteItem(
                 .fillMaxWidth()
                 .padding(16.dp),
             fontSize = 12.sp,
-            textAlign = TextAlign.End
+            textAlign = TextAlign.End,
+            color = MaterialTheme.colors.primary
         )
     }
 
