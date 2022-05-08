@@ -26,11 +26,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.elvitalya.notes.R
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.presentation.TopBar
-import com.elvitalya.notes.presentation.destinations.NoteInfoScreenDestination
-import com.google.accompanist.insets.statusBarsPadding
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlin.random.Random
 
 @Composable
@@ -38,7 +35,6 @@ import kotlin.random.Random
 @Destination
 fun NotesListScreen(
     viewModel: NotesListViewModel = hiltViewModel(),
-    navigator: DestinationsNavigator
 ) {
 
     val state = viewModel.state
@@ -49,7 +45,7 @@ fun NotesListScreen(
                 title = stringResource(id = R.string.note_list_title),
                 actions = {
                     IconButton(onClick = {
-                        navigator.navigate(NoteInfoScreenDestination(Note()))
+                      //  navigator.navigate(NoteInfoScreenDestination(Note()))
                     }) {
                         Icon(
                             imageVector = Icons.Default.Add,
@@ -76,7 +72,7 @@ fun NotesListScreen(
                         )
                     },
                     onClick = {
-                        navigator.navigate(NoteInfoScreenDestination(it))
+                       // navigator.navigate(NoteInfoScreenDestination(it))
                     }
                 )
             }
