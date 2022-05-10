@@ -23,22 +23,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.elvitalya.notes.R
+import com.elvitalya.notes.Screens
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.presentation.TopBar
-import com.elvitalya.notes.presentation.destinations.NoteInfoScreenDestination
-import com.google.accompanist.insets.statusBarsPadding
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.elvitalya.notes.ui.theme.CardBackground
 import kotlin.random.Random
 
 @Composable
-@RootNavGraph(start = true)
-@Destination
 fun NotesListScreen(
     viewModel: NotesListViewModel = hiltViewModel(),
-    navigator: DestinationsNavigator
+    navController: NavController
 ) {
 
     val state = viewModel.state
@@ -49,14 +45,14 @@ fun NotesListScreen(
                 title = stringResource(id = R.string.note_list_title),
                 actions = {
                     IconButton(onClick = {
-                        navigator.navigate(NoteInfoScreenDestination(Note()))
+                        navController.navigate(Screens.Details.route)
                     }) {
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = "add",
                             tint = MaterialTheme.colors.secondary,
                             modifier = Modifier
-                                .padding(end = 12.dp)
+                                .padding(12.dp)
                         )
                     }
                 }
@@ -76,7 +72,8 @@ fun NotesListScreen(
                         )
                     },
                     onClick = {
-                        navigator.navigate(NoteInfoScreenDestination(it))
+                        navController.navigate(Screens.Details.route)
+                        viewModel.onEvent(NotesListEvent.UpdateNote(note))
                     }
                 )
             }
@@ -107,7 +104,7 @@ fun NoteItem(
             .fillMaxWidth()
             .padding(16.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colors.background)
+            .background(CardBackground)
             .clickable { onClick.invoke(note) }
     ) {
 
@@ -121,7 +118,7 @@ fun NoteItem(
                     .padding(vertical = 16.dp)
                     .padding(start = 16.dp, end = 55.dp)
                     .align(Alignment.Center),
-                color = MaterialTheme.colors.primary,
+                color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -134,16 +131,18 @@ fun NoteItem(
                     .align(Alignment.CenterEnd),
                 onClick = { dialogState = true }
             ) {
-                Image(
+
+                Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "delete"
+                    contentDescription = "delete",
+                    tint = Color.White
                 )
             }
         }
 
 
 
-        Divider(color = Color.Red)
+        Divider(color = Color.Cyan)
 
         Text(
             text = note.description,

@@ -18,7 +18,7 @@ class NotesRepositoryImpl @Inject constructor(
 ) : NotesRepository {
 
     override fun getNotes(): Flow<List<Note>> {
-        return notesDataSource.getNotes().map { it.toNote() }
+        return notesDataSource.getNotes().map { it.map { note -> note.toNote() }}
     }
 
     override suspend fun getNote(id: Int): Note = withContext(Dispatchers.IO) {

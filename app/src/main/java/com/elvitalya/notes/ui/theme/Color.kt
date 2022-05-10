@@ -21,3 +21,6 @@ val SecondaryDark = Color(0xFFFFFFFF)
 
 // Default
 val Yellow = Color(0xFFF0D10A)
+
+
+val CardBackground = Color(0xFF7B94EE)

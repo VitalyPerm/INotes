@@ -1,19 +1,21 @@
 package com.elvitalya.notes
 
 import android.os.Bundle
-import android.view.Window
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
-import com.elvitalya.notes.presentation.NavGraphs
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.elvitalya.notes.presentation.notes_info.NoteInfoScreen
+import com.elvitalya.notes.presentation.notes_list.NotesListScreen
 import com.elvitalya.notes.ui.theme.NotesTheme
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,9 +38,32 @@ class MainActivity : ComponentActivity() {
 
             NotesTheme {
                 ProvideWindowInsets {
-                    DestinationsNavHost(navGraph = NavGraphs.root)
+                    Main()
                 }
             }
         }
     }
+}
+
+
+@Composable
+fun Main() {
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = Screens.NotesList.route
+    ) {
+        composable(Screens.NotesList.route) {
+            NotesListScreen(navController = navController)
+        }
+        composable(Screens.Details.route) {
+            NoteInfoScreen(navController = navController)
+        }
+    }
+}
+
+sealed class Screens(val route: String) {
+    object NotesList : Screens("LIST")
+    object Details : Screens("DETAIL")
 }

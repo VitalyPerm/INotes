@@ -2,7 +2,7 @@
 
     <string name="app_name">Заметки</string>
     <string name="note_list_title">Заметки</string>
-    <string name="note_detail_title">Новая заметка</string>
+    <string name="note_detail_title">Редактирование</string>
     <string name="save">Сохранить</string>
     <string name="desc">Описание</string>
 

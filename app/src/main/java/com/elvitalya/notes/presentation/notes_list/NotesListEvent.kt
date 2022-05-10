@@ -6,4 +6,6 @@ sealed class NotesListEvent {
 
     data class Delete(val note: Note): NotesListEvent()
 
+    data class UpdateNote(val note: Note): NotesListEvent()
+
 }
