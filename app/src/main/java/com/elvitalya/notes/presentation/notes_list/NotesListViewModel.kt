@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.elvitalya.notes.Screens
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.domain.repository.NotesRepository
 import com.elvitalya.notes.presentation.SharedNote
@@ -39,6 +41,12 @@ class NotesListViewModel @Inject constructor(
             }
             is NotesListEvent.UpdateNote -> {
                 sharedNote.note = event.note
+                event.navController.navigate(Screens.Details.route)
+            }
+
+            is NotesListEvent.NewNote -> {
+                sharedNote.note = null
+                event.navController.navigate(Screens.Details.route)
             }
         }
     }

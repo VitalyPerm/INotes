@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.elvitalya.notes.R
 import com.elvitalya.notes.presentation.TopBar
+import com.elvitalya.notes.ui.theme.ButtonBackground
 import com.elvitalya.notes.ui.theme.CardBackground
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.navigationBarsWithImePadding
@@ -64,7 +65,7 @@ fun NoteInfoScreen(
                 Modifier
                     .align(Alignment.TopCenter)
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 12.dp)
             ) {
                 OutlinedTextField(
                     modifier = Modifier
@@ -109,7 +110,7 @@ fun NoteInfoScreen(
                     .navigationBarsWithImePadding()
                     .padding(bottom = 16.dp)
                     .clip(CircleShape)
-                    .background(CardBackground)
+                    .background(ButtonBackground)
                     .clickable {
                         viewModel.onEvent(NoteInfoEvent.Insert)
                         navController.popBackStack()

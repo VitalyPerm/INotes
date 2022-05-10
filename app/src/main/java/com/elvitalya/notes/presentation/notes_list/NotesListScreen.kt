@@ -45,7 +45,7 @@ fun NotesListScreen(
                 title = stringResource(id = R.string.note_list_title),
                 actions = {
                     IconButton(onClick = {
-                        navController.navigate(Screens.Details.route)
+                        viewModel.onEvent(NotesListEvent.NewNote(navController))
                     }) {
                         Icon(
                             imageVector = Icons.Default.Add,
@@ -72,8 +72,7 @@ fun NotesListScreen(
                         )
                     },
                     onClick = {
-                        navController.navigate(Screens.Details.route)
-                        viewModel.onEvent(NotesListEvent.UpdateNote(note))
+                        viewModel.onEvent(NotesListEvent.UpdateNote(note, navController))
                     }
                 )
             }

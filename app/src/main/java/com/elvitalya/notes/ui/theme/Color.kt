@@ -24,3 +24,4 @@ val Yellow = Color(0xFFF0D10A)
 
 
 val CardBackground = Color(0xFF7B94EE)
+val ButtonBackground = Color(0xFFF03964)
