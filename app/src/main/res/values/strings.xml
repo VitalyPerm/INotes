@@ -12,4 +12,9 @@
     <string name="alert_dialog_delete_button">Удалить</string>
     <string name="alert_dialog_cancel_button">Не уверен</string>
 
+
+    <string name="pin_code_new">Придумайте пин код</string>
+    <string name="pin_code_enter">Введите пин код</string>
+    <string name="pin_code_ok">Введите пин код</string>
+
 </resources>
