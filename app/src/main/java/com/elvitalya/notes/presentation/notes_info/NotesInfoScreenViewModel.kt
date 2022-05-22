@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.domain.repository.NotesRepository
-import com.elvitalya.notes.presentation.SharedNote
+import com.elvitalya.notes.presentation.TestNote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,15 +15,12 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesInfoScreenViewModel @Inject constructor(
     private val repository: NotesRepository,
-    sharedNote: SharedNote
 ) : ViewModel() {
 
     var state by mutableStateOf(Note())
 
     init {
-        sharedNote.note?.let {
-            state = it
-        }
+        TestNote.note?.let { state = it }
     }
 
     private fun insert(note: Note) {
@@ -35,9 +32,7 @@ class NotesInfoScreenViewModel @Inject constructor(
     fun onEvent(event: NoteInfoEvent) {
         when (event) {
             is NoteInfoEvent.Insert -> {
-                insert(
-                    state
-                )
+                insert(state)
             }
             is NoteInfoEvent.TitleChanged -> {
                 state = state.copy(title = event.value)
@@ -45,10 +40,6 @@ class NotesInfoScreenViewModel @Inject constructor(
 
             is NoteInfoEvent.DescriptionChanged -> {
                 state = state.copy(description = event.value)
-            }
-
-            is NoteInfoEvent.GetDataFromArgs -> {
-
             }
         }
     }
