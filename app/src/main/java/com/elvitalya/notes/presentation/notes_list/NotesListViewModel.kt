@@ -9,6 +9,7 @@ import com.elvitalya.notes.Screens
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.domain.repository.NotesRepository
 import com.elvitalya.notes.presentation.TestNote
+import com.elvitalya.notes.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -49,13 +50,9 @@ class NotesListViewModel @Inject constructor(
         }
     }
 
-    private fun getNotes() {
-        repository.getNotes().onEach {
-            state = state.copy(notes = it)
-        }.launchIn(viewModelScope)
-    }
-
     init {
-        getNotes()
+        repository.getNotes().onEach {
+            state = state.copy(notes = it.sortedByDescending { note -> note.date.toDate() })
+        }.launchIn(viewModelScope)
     }
 }

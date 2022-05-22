@@ -1,6 +1,5 @@
 package com.elvitalya.notes.presentation.notes_list
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -25,10 +24,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.elvitalya.notes.R
-import com.elvitalya.notes.Screens
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.presentation.TopBar
 import com.elvitalya.notes.ui.theme.CardBackground
+import com.google.accompanist.insets.navigationBarsPadding
 import kotlin.random.Random
 
 @Composable
@@ -58,7 +57,9 @@ fun NotesListScreen(
                 }
             )
         },
-        backgroundColor = MaterialTheme.colors.primary
+        backgroundColor = MaterialTheme.colors.primary,
+        modifier = Modifier
+            .navigationBarsPadding()
     ) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.notes.size) { i ->
