@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.elvitalya.notes.Screens
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.domain.repository.NotesRepository
-import com.elvitalya.notes.presentation.TestNote
+import com.elvitalya.notes.presentation.SharedNote
 import com.elvitalya.notes.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -39,12 +39,12 @@ class NotesListViewModel @Inject constructor(
                 delete(event.note)
             }
             is NotesListEvent.UpdateNote -> {
-                TestNote.note = event.note
+                SharedNote.note = event.note
                 event.navController.navigate(Screens.Details.route)
             }
 
             is NotesListEvent.NewNote -> {
-                TestNote.note = null
+                SharedNote.note = null
                 event.navController.navigate(Screens.Details.route)
             }
         }

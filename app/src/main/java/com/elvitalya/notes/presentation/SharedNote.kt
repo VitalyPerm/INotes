@@ -2,6 +2,6 @@ package com.elvitalya.notes.presentation
 
 import com.elvitalya.notes.domain.model.Note
 
-object TestNote {
+object SharedNote {
     var note: Note? = null
 }

@@ -1,6 +1,5 @@
 package com.elvitalya.notes.presentation.notes_info
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,11 +9,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -25,7 +21,7 @@ import androidx.navigation.NavController
 import com.elvitalya.notes.R
 import com.elvitalya.notes.presentation.TopBar
 import com.elvitalya.notes.ui.theme.CardBackground
-import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.google.accompanist.insets.navigationBarsPadding
 
 const val TAG = "note_info"
 
@@ -51,8 +47,8 @@ fun NoteInfoScreen(
     Column(
         Modifier
             .fillMaxSize()
-            .navigationBarsWithImePadding()
             .background(MaterialTheme.colors.primary)
+            .padding(horizontal = 16.dp)
     ) {
         TopBar(
             title = stringResource(id = R.string.note_detail_title),
@@ -63,7 +59,11 @@ fun NoteInfoScreen(
                         navController.popBackStack()
                     }
                 ) {
-                    Icon(imageVector = Icons.Filled.Check, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Filled.Check,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
                 }
             }
         )
@@ -72,9 +72,7 @@ fun NoteInfoScreen(
 
         OutlinedTextField(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(16.dp)),
+                .fillMaxWidth(),
             value = viewModel.state.title,
             onValueChange = {
                 viewModel.onEvent(NoteInfoEvent.TitleChanged(it))
@@ -83,7 +81,8 @@ fun NoteInfoScreen(
             placeholder = {
                 Text(text = "Название")
             },
-            maxLines = 1,
+            shape = RoundedCornerShape(16.dp),
+            singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = { keyboardController?.hide() })
@@ -94,10 +93,10 @@ fun NoteInfoScreen(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .wrapContentHeight(CenterVertically)
-            ,
+                .weight(1f)
+                .navigationBarsPadding()
+                .padding(bottom = 8.dp),
+            shape = RoundedCornerShape(16.dp),
             value = viewModel.state.description,
             onValueChange = {
                 viewModel.onEvent(NoteInfoEvent.DescriptionChanged(it))

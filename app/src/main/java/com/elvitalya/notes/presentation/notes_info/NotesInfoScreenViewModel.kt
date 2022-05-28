@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.domain.repository.NotesRepository
-import com.elvitalya.notes.presentation.TestNote
+import com.elvitalya.notes.presentation.SharedNote
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +20,7 @@ class NotesInfoScreenViewModel @Inject constructor(
     var state by mutableStateOf(Note())
 
     init {
-        TestNote.note?.let { state = it }
+        SharedNote.note?.let { state = it }
     }
 
     private fun insert(note: Note) {

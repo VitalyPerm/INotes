@@ -116,7 +116,6 @@ fun NoteItem(
                 text = note.title,
                 modifier = Modifier
                     .padding(vertical = 16.dp)
-                    .padding(start = 16.dp, end = 55.dp)
                     .align(Alignment.Center),
                 color = Color.White,
                 fontSize = 20.sp,
@@ -142,7 +141,7 @@ fun NoteItem(
 
 
 
-        Divider(color = Color.Cyan)
+        Divider(color = Color.Black)
 
         Text(
             text = note.description,
@@ -152,7 +151,7 @@ fun NoteItem(
             fontSize = 16.sp,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
-            color = MaterialTheme.colors.primary
+            color = Color.White
         )
 
         Text(
@@ -162,7 +161,7 @@ fun NoteItem(
                 .padding(16.dp),
             fontSize = 12.sp,
             textAlign = TextAlign.End,
-            color = MaterialTheme.colors.primary
+            color = Color.White
         )
     }
 
@@ -171,12 +170,17 @@ fun NoteItem(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun Preview() {
-    NoteItem(
-        note = Note(
-            id = Random.nextInt(),
-            title = "Proverkahghhghghghghghghghghghghghghghghghghg",
-            description = "tut koroche description",
-            date = "22/02/2222 15:55"
-        )
-    )
+    LazyColumn{
+        items(10) {
+            NoteItem(
+                note = Note(
+                    id = Random.nextInt(),
+                    title = "Title",
+                    description = "tut koroche description",
+                    date = "22/02/2222 15:55"
+                )
+            )
+        }
+    }
+
 }
