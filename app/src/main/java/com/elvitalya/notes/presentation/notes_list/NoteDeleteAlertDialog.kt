@@ -1,10 +1,13 @@
 package com.elvitalya.notes.presentation.notes_list
 
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -54,19 +57,24 @@ fun DeleteNoteAlertDialog(
                     ) {
                         val context = LocalContext.current
 
-                        Box(modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .clickable {
-                                Toast
-                                    .makeText(
-                                        context,
-                                        context.getText(R.string.alert_dialog_note_deleted),
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
-                                onClickYes()
-                                onDismissRequest(dialogState)
-                            }) {
+                        Surface(
+                            border = BorderStroke(1.5.dp, Color.Black),
+                            shape = RoundedCornerShape(8.dp),
+                            elevation = 2.dp,
+                            color = Color.White,
+                            modifier = Modifier
+                                .clickable {
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            context.getText(R.string.alert_dialog_note_deleted),
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
+                                    onClickYes()
+                                    onDismissRequest(dialogState)
+                                }
+                        ) {
                             Text(
                                 text = stringResource(id = R.string.alert_dialog_delete_button),
                                 color = Color(0xFF1467C9),
@@ -78,11 +86,17 @@ fun DeleteNoteAlertDialog(
 
                         Spacer(modifier = Modifier.width(24.dp))
 
-                        Box(modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .clickable {
-                                onDismissRequest(dialogState)
-                            }) {
+
+                        Surface(
+                            border = BorderStroke(1.5.dp, Color.Black),
+                            shape = RoundedCornerShape(8.dp),
+                            elevation = 2.dp,
+                            color = Color.White,
+                            modifier = Modifier
+                                .clickable {
+                                    onDismissRequest(dialogState)
+                                }
+                        ) {
                             Text(
                                 text = stringResource(id = R.string.alert_dialog_cancel_button),
                                 color = Color(0xFF1467C9),
