@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -90,22 +91,28 @@ fun NoteInfoScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        OutlinedTextField(
+        Surface(
             modifier = Modifier
                 .fillMaxWidth()
+                .wrapContentHeight(Alignment.Top)
                 .weight(1f)
-                .navigationBarsPadding()
-                .padding(bottom = 8.dp),
-            shape = RoundedCornerShape(16.dp),
-            value = viewModel.state.description,
-            onValueChange = {
-                viewModel.onEvent(NoteInfoEvent.DescriptionChanged(it))
-            },
-            placeholder = {
-                Text(text = stringResource(id = R.string.desc))
-            },
-            colors = textFieldColor
-        )
+                .padding(bottom = 8.dp)
+                .navigationBarsPadding(),
+        ) {
+            OutlinedTextField(
+                modifier = Modifier
+                    .fillMaxSize(),
+                shape = RoundedCornerShape(16.dp),
+                value = viewModel.state.description,
+                onValueChange = {
+                    viewModel.onEvent(NoteInfoEvent.DescriptionChanged(it))
+                },
+                placeholder = {
+                    Text(text = stringResource(id = R.string.desc))
+                },
+                colors = textFieldColor
+            )
+        }
     }
 }
 
