@@ -1,4 +1,4 @@
-package com.elvitalya.notes
+package com.elvitalya.notes.presentation
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

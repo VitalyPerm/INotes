@@ -1,4 +1,4 @@
-package com.elvitalya.notes.ui.theme
+package com.elvitalya.notes.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

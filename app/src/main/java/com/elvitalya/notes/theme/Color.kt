@@ -1,4 +1,4 @@
-package com.elvitalya.notes.ui.theme
+package com.elvitalya.notes.theme.theme
 
 import androidx.compose.ui.graphics.Color
 

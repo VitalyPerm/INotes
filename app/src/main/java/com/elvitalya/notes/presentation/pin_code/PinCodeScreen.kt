@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.elvitalya.notes.R
-import com.elvitalya.notes.ui.theme.CardBackground
+import com.elvitalya.notes.theme.theme.CardBackground
 
 @Composable
 fun PinCodeScreen(

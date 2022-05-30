@@ -20,7 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.elvitalya.notes.R
 import com.elvitalya.notes.presentation.TopBar
-import com.elvitalya.notes.ui.theme.CardBackground
+import com.elvitalya.notes.theme.theme.CardBackground
 import com.google.accompanist.insets.navigationBarsPadding
 
 const val TAG = "note_info"

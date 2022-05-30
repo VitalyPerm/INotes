@@ -2,7 +2,6 @@ package com.elvitalya.notes
 
 import android.content.Context
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -22,7 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.elvitalya.notes.presentation.notes_info.NoteInfoScreen
 import com.elvitalya.notes.presentation.notes_list.NotesListScreen
 import com.elvitalya.notes.presentation.pin_code.PinCodeScreen
-import com.elvitalya.notes.ui.theme.NotesTheme
+import com.elvitalya.notes.theme.theme.NotesTheme
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +30,6 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
