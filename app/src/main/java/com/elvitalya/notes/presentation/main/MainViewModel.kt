@@ -1,11 +1,10 @@
-package com.elvitalya.notes.presentation.notes_list
+package com.elvitalya.notes.presentation.main
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elvitalya.notes.presentation.Screens
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.domain.repository.NotesRepository
 import com.elvitalya.notes.util.toDate
@@ -25,7 +24,7 @@ class NotesListViewModel @Inject constructor(
 
     private var deleteNoteJob: Job? = null
 
-    var state by mutableStateOf(NotesListState())
+    var state by mutableStateOf(MainState())
 
     private fun delete(note: Note) {
         deleteNoteJob?.cancel()
@@ -34,16 +33,16 @@ class NotesListViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: NotesListEvent) {
+    fun onEvent(event: MainEvent) {
         when (event) {
-            is NotesListEvent.Delete -> {
+            is MainEvent.Delete -> {
                 delete(event.note)
             }
-            is NotesListEvent.UpdateNote -> {
+            is MainEvent.UpdateNote -> {
                 event.navController.navigate("${Screens.Details.route}/${event.noteId}")
             }
 
-            is NotesListEvent.NewNote -> {
+            is MainEvent.NewNote -> {
                 event.navController.navigate("${Screens.Details.route}/$NEW_NOTE")
             }
         }

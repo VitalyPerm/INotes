@@ -7,34 +7,34 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.domain.repository.NotesRepository
-import com.elvitalya.notes.presentation.notes_list.NEW_NOTE
+import com.elvitalya.notes.presentation.main.NEW_NOTE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NotesInfoScreenViewModel @Inject constructor(
+class NotesDetailsScreenViewModel @Inject constructor(
     private val repository: NotesRepository,
 ) : ViewModel() {
 
     var state by mutableStateOf(Note())
 
-    fun onEvent(event: NoteInfoEvent) {
+    fun onEvent(event: NoteDetailsEvent) {
         when (event) {
-            is NoteInfoEvent.Insert -> {
+            is NoteDetailsEvent.Insert -> {
                 viewModelScope.launch {
                     repository.addNote(state)
                 }
             }
-            is NoteInfoEvent.TitleChanged -> {
+            is NoteDetailsEvent.TitleChanged -> {
                 state = state.copy(title = event.value)
             }
 
-            is NoteInfoEvent.DescriptionChanged -> {
+            is NoteDetailsEvent.DescriptionChanged -> {
                 state = state.copy(description = event.value)
             }
 
-            is NoteInfoEvent.GetNoteInfo -> {
+            is NoteDetailsEvent.GetNoteDetails -> {
                 if (event.value != NEW_NOTE) {
                     viewModelScope.launch {
                         val note = repository.getNote(event.value)

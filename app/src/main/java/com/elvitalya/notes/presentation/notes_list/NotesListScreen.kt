@@ -4,17 +4,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -23,60 +22,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.elvitalya.notes.R
 import com.elvitalya.notes.domain.model.Note
-import com.elvitalya.notes.presentation.TopBar
+import com.elvitalya.notes.presentation.main.MainEvent
+import com.elvitalya.notes.presentation.main.MainState
 import com.elvitalya.notes.theme.theme.CardBackground
-import com.google.accompanist.insets.navigationBarsPadding
 import kotlin.random.Random
 
 @Composable
 fun NotesListScreen(
-    viewModel: NotesListViewModel = hiltViewModel(),
-    navController: NavController
+    state: MainState,
+    favorite: Boolean,
+    onClickNote: (Note) -> Unit,
+    onClickDelete: (Note) -> Unit
 ) {
 
-    val state = viewModel.state
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
+        val list = if(favorite) state.favorites else state.notes
 
-    Scaffold(
-        topBar = {
-            TopBar(
-                title = stringResource(id = R.string.note_list_title),
-                actions = {
-                    IconButton(onClick = {
-                        viewModel.onEvent(NotesListEvent.NewNote(navController))
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "add",
-                            tint = MaterialTheme.colors.secondary,
-                            modifier = Modifier
-                                .padding(12.dp)
-                        )
-                    }
+        items(list) { note ->
+            NoteItem(
+                note = note,
+                onClickDelete = {
+                    onClickDelete(it)
+                },
+                onClick = {
+                    onClickNote(it)
                 }
             )
-        },
-        backgroundColor = MaterialTheme.colors.primary,
-        modifier = Modifier
-            .navigationBarsPadding()
-    ) {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.notes.size) { i ->
-                val note = state.notes[i]
-
-                NoteItem(
-                    note = note,
-                    onClickDelete = {
-                        viewModel.onEvent(
-                            NotesListEvent.Delete(note = note)
-                        )
-                    },
-                    onClick = {
-                        viewModel.onEvent(NotesListEvent.UpdateNote(note, navController, note.id))
-                    }
-                )
-            }
         }
     }
 }
@@ -170,7 +142,7 @@ fun NoteItem(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun Preview() {
-    LazyColumn{
+    LazyColumn {
         items(10) {
             NoteItem(
                 note = Note(
