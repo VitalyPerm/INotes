@@ -21,14 +21,15 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.elvitalya.notes.R
 import com.elvitalya.notes.theme.theme.CardBackground
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun PinCodeScreen(
     viewModel: PinCodeViewModel = hiltViewModel(),
-    navController: NavController
+    goForward: () -> Unit
 ) {
     val textFieldColor = TextFieldDefaults.textFieldColors(
         textColor = Color.White,
@@ -43,8 +44,13 @@ fun PinCodeScreen(
 
     val focusRequester = remember { FocusRequester() }
 
-    SideEffect {
-        focusRequester.requestFocus()
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = true) {
+        scope.launch {
+            delay(300)
+            focusRequester.requestFocus()
+        }
     }
 
     Column(
@@ -84,6 +90,10 @@ fun PinCodeScreen(
                 if (it.text.length < 5) {
                     viewModel.pinCode.value = it
                 }
+                if (it.text.length == 4 && !viewModel.pinEmpty.value) {
+                    val pinValid = viewModel.enterPin()
+                    if (pinValid) goForward()
+                }
             },
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
             colors = textFieldColor,
@@ -95,9 +105,11 @@ fun PinCodeScreen(
             keyboardActions = KeyboardActions(
                 onDone = {
                     if (viewModel.pinEmpty.value) {
-                        viewModel.savePin(navController)
+                        viewModel.savePin()
+                        goForward()
                     } else {
-                        viewModel.enterPin(navController)
+                        val pinValid = viewModel.enterPin()
+                        if (pinValid) goForward()
                     }
                 }
             )

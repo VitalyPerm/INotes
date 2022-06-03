@@ -24,7 +24,6 @@ import com.elvitalya.notes.presentation.debug
 import com.elvitalya.notes.presentation.notes_info.NoteDetailsScreen
 import com.elvitalya.notes.presentation.notes_list.NotesListScreen
 import com.elvitalya.notes.presentation.pin_code.PinCodeScreen
-import com.elvitalya.notes.theme.theme.CardBackground
 import com.google.accompanist.insets.navigationBarsPadding
 
 @Composable
@@ -34,7 +33,7 @@ fun Main(
 
     var selectedItem by remember { mutableStateOf(Screens.NotesList.route) }
     val navController = rememberNavController()
-    var bottomBarVisibility by remember { mutableStateOf(true) }
+    var bottomBarVisibility by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -81,7 +80,7 @@ fun Main(
                                 label = { Text(text = Screens.NotesList.route) },
                                 alwaysShowLabel = false,
                                 modifier = Modifier
-                                .background(Color.White),
+                                    .background(Color.White),
                                 selectedContentColor = Color.Red,
                                 unselectedContentColor = Color.Black
                             )
@@ -165,8 +164,8 @@ fun Main(
                     navArgument("id") {
                         type = NavType.IntType
                     })
-            ) {
-                val id = it.arguments?.getInt("id")
+            ) { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("id")
                 NoteDetailsScreen(
                     navController = navController,
                     noteId = id,
@@ -174,7 +173,12 @@ fun Main(
                 )
             }
             composable(Screens.PIN.route) {
-                PinCodeScreen(navController = navController)
+                PinCodeScreen {
+                    navController.navigate(Screens.NotesList.route) {
+                        popUpTo(0)
+                        bottomBarVisibility = true
+                    }
+                }
             }
         }
     }
@@ -183,6 +187,6 @@ fun Main(
 sealed class Screens(val route: String) {
     object NotesList : Screens("Notes")
     object NotesFavoriteList : Screens("Favorite")
-    object Details : Screens("DETAIL")
-    object PIN : Screens("PIN")
+    object Details : Screens("Detail")
+    object PIN : Screens("Pin")
 }

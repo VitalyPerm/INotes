@@ -41,25 +41,22 @@ class PinCodeViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun savePin(navController: NavController) {
+    fun savePin() {
         viewModelScope.launch {
             dataStore.edit {
                 it[PIN] = pinCode.value.text
 
             }
-            navController.navigate(Screens.NotesList.route) {
-                popUpTo(0)
-            }
         }
     }
 
-    fun enterPin(navController: NavController) {
-        if (pinCode.value.text == savedPin) {
-            navController.navigate(Screens.NotesList.route) {
-                popUpTo(0)
-            }
-        }else {
-            Toast.makeText(application.applicationContext, "Пин код не верный", Toast.LENGTH_SHORT).show()
+    fun enterPin(): Boolean {
+        return if (pinCode.value.text == savedPin) {
+            true
+        } else {
+            Toast.makeText(application.applicationContext, "Пин код не верный", Toast.LENGTH_SHORT)
+                .show()
+            false
         }
     }
 }

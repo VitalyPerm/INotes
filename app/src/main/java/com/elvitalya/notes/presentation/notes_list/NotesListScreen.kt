@@ -1,5 +1,7 @@
 package com.elvitalya.notes.presentation.notes_list
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -66,6 +68,17 @@ fun NoteItem(
         mutableStateOf(false)
     }
 
+
+    val cardBgColor by animateColorAsState(
+        targetValue = if (note.favorite) Color.White
+        else CardBackground, animationSpec = tween(1000)
+    )
+
+    val restColor by animateColorAsState(
+        targetValue = if (note.favorite) Color.Black else Color.White,
+        animationSpec = tween(1000)
+    )
+
     DeleteNoteAlertDialog(
         dialogState = dialogState,
         onDismissRequest = {
@@ -78,7 +91,7 @@ fun NoteItem(
             .fillMaxWidth()
             .padding(16.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(CardBackground)
+            .background(cardBgColor)
             .clickable { onClick.invoke(note) }
     ) {
 
@@ -104,7 +117,7 @@ fun NoteItem(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
                     .weight(1f),
-                color = Color.White,
+                color = restColor,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
@@ -118,7 +131,7 @@ fun NoteItem(
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = "delete",
-                    tint = Color.White
+                    tint = restColor
                 )
             }
         }
@@ -135,7 +148,7 @@ fun NoteItem(
             fontSize = 16.sp,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
-            color = Color.White
+            color = restColor
         )
 
         Text(
@@ -145,7 +158,7 @@ fun NoteItem(
                 .padding(16.dp),
             fontSize = 12.sp,
             textAlign = TextAlign.End,
-            color = Color.White
+            color = restColor
         )
     }
 
