@@ -1,6 +1,5 @@
 package com.elvitalya.notes.presentation.main
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -11,11 +10,14 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.elvitalya.notes.R
@@ -31,7 +33,6 @@ fun Main(
     viewModel: MainViewModel = hiltViewModel(),
 ) {
 
-    var selectedItem by remember { mutableStateOf(Screens.NotesList.route) }
     val navController = rememberNavController()
     var bottomBarVisibility by remember { mutableStateOf(false) }
 
@@ -61,54 +62,30 @@ fun Main(
                 BottomAppBar(
                     cutoutShape = RoundedCornerShape(50),
                     backgroundColor = Color.White,
-                    content = {
-                        BottomNavigation {
-                            BottomNavigationItem(
-                                selected = selectedItem == Screens.NotesList.route,
-                                onClick = {
-                                    navController.navigate(Screens.NotesList.route) {
-                                        popUpTo(0)
-                                    }
-                                    selectedItem = Screens.NotesList.route
-                                },
-                                icon = {
-                                    Icon(
-                                        imageVector = Icons.Filled.Home,
-                                        contentDescription = null
-                                    )
-                                },
-                                label = { Text(text = Screens.NotesList.route) },
-                                alwaysShowLabel = false,
-                                modifier = Modifier
-                                    .background(Color.White),
-                                selectedContentColor = Color.Red,
-                                unselectedContentColor = Color.Black
-                            )
-
-                            BottomNavigationItem(
-                                selected = selectedItem == Screens.NotesFavoriteList.route,
-                                onClick = {
-                                    navController.navigate(Screens.NotesFavoriteList.route) {
-                                        popUpTo(0)
-                                    }
-                                    selectedItem = Screens.NotesFavoriteList.route
-                                },
-                                icon = {
-                                    Icon(
-                                        imageVector = Icons.Filled.Favorite,
-                                        contentDescription = null
-                                    )
-                                },
-                                label = { Text(text = Screens.NotesFavoriteList.route) },
-                                alwaysShowLabel = false,
-                                modifier = Modifier
-                                    .background(Color.White),
-                                selectedContentColor = Color.Red,
-                                unselectedContentColor = Color.Black
-                            )
-                        }
-                    },
-                )
+                ) {
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val currentDestination = navBackStackEntry?.destination
+                    listOf(MainScreen.All, MainScreen.Favorite).forEach { screen ->
+                        BottomNavigationItem(
+                            icon = {
+                                Icon(
+                                    imageVector = screen.icon,
+                                    contentDescription = screen.title
+                                )
+                            },
+                            alwaysShowLabel = false,
+                            label = { Text(text = screen.title) },
+                            selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                            onClick = {
+                                navController.navigate(screen.route) {
+                                    popUpTo(0)
+                                }
+                            },
+                            selectedContentColor = Color.Red,
+                            unselectedContentColor = Color.Black
+                        )
+                    }
+                }
             }
         },
         isFloatingActionButtonDocked = true,
@@ -119,10 +96,10 @@ fun Main(
     ) {
         NavHost(
             navController = navController,
-            startDestination = if (debug) Screens.NotesList.route else Screens.PIN.route,
+            startDestination = if (debug) MainScreen.All.route else Destinations.PIN.route,
             modifier = Modifier.padding(bottom = it.calculateBottomPadding())
         ) {
-            composable(Screens.NotesList.route) {
+            composable(MainScreen.All.route) {
                 NotesListScreen(
                     notes = viewModel.state,
                     favorite = false,
@@ -140,7 +117,7 @@ fun Main(
                     }
                 )
             }
-            composable(Screens.NotesFavoriteList.route) {
+            composable(MainScreen.Favorite.route) {
                 NotesListScreen(
                     notes = viewModel.state,
                     favorite = true,
@@ -159,7 +136,7 @@ fun Main(
                 )
             }
             composable(
-                "${Screens.Details.route}/{id}",
+                "${Destinations.Details.route}/{id}",
                 arguments = listOf(
                     navArgument("id") {
                         type = NavType.IntType
@@ -172,9 +149,9 @@ fun Main(
                     goBack = { bottomBarVisibility = true }
                 )
             }
-            composable(Screens.PIN.route) {
+            composable(Destinations.PIN.route) {
                 PinCodeScreen {
-                    navController.navigate(Screens.NotesList.route) {
+                    navController.navigate(MainScreen.All.route) {
                         popUpTo(0)
                         bottomBarVisibility = true
                     }
@@ -184,9 +161,13 @@ fun Main(
     }
 }
 
-sealed class Screens(val route: String) {
-    object NotesList : Screens("Notes")
-    object NotesFavoriteList : Screens("Favorite")
-    object Details : Screens("Detail")
-    object PIN : Screens("Pin")
+sealed class MainScreen(val route: String, val title: String, val icon: ImageVector) {
+    object All : MainScreen("all", "Все", Icons.Filled.Home)
+    object Favorite : MainScreen("favorite", "Важные", Icons.Filled.Favorite)
+}
+
+
+sealed class Destinations(val route: String) {
+    object Details : Destinations("Detail")
+    object PIN : Destinations("Pin")
 }

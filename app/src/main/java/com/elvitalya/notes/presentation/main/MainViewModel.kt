@@ -1,14 +1,10 @@
 package com.elvitalya.notes.presentation.main
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.domain.repository.NotesRepository
-import com.elvitalya.notes.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -48,11 +44,11 @@ class MainViewModel @Inject constructor(
                 delete(event.note)
             }
             is MainEvent.UpdateNote -> {
-                event.navController.navigate("${Screens.Details.route}/${event.noteId}")
+                event.navController.navigate("${Destinations.Details.route}/${event.noteId}")
             }
 
             is MainEvent.NewNote -> {
-                event.navController.navigate("${Screens.Details.route}/$NEW_NOTE")
+                event.navController.navigate("${Destinations.Details.route}/$NEW_NOTE")
             }
 
             is MainEvent.OnClickFavorite -> {
