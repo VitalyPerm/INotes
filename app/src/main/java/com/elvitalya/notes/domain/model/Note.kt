@@ -11,5 +11,6 @@ data class Note(
     val id: Int = Random().nextInt(),
     val title: String = "",
     val description: String = "",
-    val date: String = Date().format()
+    val date: String = Date().format(),
+    val favorite: Boolean = false
 ): Parcelable

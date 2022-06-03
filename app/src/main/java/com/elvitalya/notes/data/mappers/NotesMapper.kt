@@ -11,7 +11,8 @@ fun NoteEntity.toNote(): Note =
         id = id,
         title = title,
         description = description,
-        date = date.format()
+        date = date.format(),
+        favorite = favorite
     )
 
 
@@ -20,7 +21,8 @@ fun Note.toNoteEntity(): NoteEntity =
         id = id,
         title = title,
         description = description,
-        date = date.toDate()
+        date = date.toDate(),
+        favorite = favorite
     )
 
 

@@ -71,6 +71,7 @@ fun NoteDetailsScreen(
                 IconButton(
                     onClick = {
                         viewModel.onEvent(NoteDetailsEvent.Insert)
+                        goBack()
                         navController.popBackStack()
                     }
                 ) {

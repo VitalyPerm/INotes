@@ -2,6 +2,8 @@ package com.elvitalya.notes.di
 
 import android.app.Application
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.elvitalya.notes.data.local.NotesDao
 import com.elvitalya.notes.data.local.NotesDataBase
 import dagger.Module
@@ -14,6 +16,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+
     @Provides
     @Singleton
     fun provideNotesDao(app: Application): NotesDao {
@@ -21,6 +24,13 @@ object AppModule {
             app,
             NotesDataBase::class.java,
             "notes_db"
-        ).build().dao
+        )
+            .addMigrations(object : Migration(1, 2) {
+                override fun migrate(database: SupportSQLiteDatabase) {
+                    database.execSQL("ALTER TABLE NoteEntity ADD COLUMN favorite INTEGER DEFAULT 0 NOT NULL")
+                }
+            }
+            )
+            .build().dao
     }
 }

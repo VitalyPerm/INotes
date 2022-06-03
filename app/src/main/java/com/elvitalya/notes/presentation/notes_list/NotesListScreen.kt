@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,24 +21,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.elvitalya.notes.domain.model.Note
-import com.elvitalya.notes.presentation.main.MainEvent
-import com.elvitalya.notes.presentation.main.MainState
 import com.elvitalya.notes.theme.theme.CardBackground
 import kotlin.random.Random
 
 @Composable
 fun NotesListScreen(
-    state: MainState,
+    notes: List<Note>,
     favorite: Boolean,
     onClickNote: (Note) -> Unit,
-    onClickDelete: (Note) -> Unit
+    onClickDelete: (Note) -> Unit,
+    onClickFavorite: (Note) -> Unit
 ) {
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        val list = if(favorite) state.favorites else state.notes
+        val list = if (favorite) notes.filter { it.favorite } else notes
 
         items(list) { note ->
             NoteItem(
@@ -47,6 +45,9 @@ fun NotesListScreen(
                 },
                 onClick = {
                     onClickNote(it)
+                },
+                onClickFavorite = {
+                    onClickFavorite(it)
                 }
             )
         }
@@ -57,7 +58,8 @@ fun NotesListScreen(
 fun NoteItem(
     note: Note,
     onClickDelete: (Note) -> Unit = {},
-    onClick: (Note) -> Unit = {}
+    onClick: (Note) -> Unit = {},
+    onClickFavorite: (Note) -> Unit = {}
 ) {
 
     var dialogState by remember {
@@ -80,15 +82,28 @@ fun NoteItem(
             .clickable { onClick.invoke(note) }
     ) {
 
-        Box(
+        Row(
             modifier = Modifier
                 .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
+
+            IconButton(
+                onClick = { onClickFavorite(note) }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "delete",
+                    tint = if (note.favorite) Color.Red else Color.White
+                )
+            }
+
             Text(
                 text = note.title,
                 modifier = Modifier
                     .padding(vertical = 16.dp)
-                    .align(Alignment.Center),
+                    .weight(1f),
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
@@ -98,11 +113,8 @@ fun NoteItem(
             )
 
             IconButton(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd),
                 onClick = { dialogState = true }
             ) {
-
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = "delete",

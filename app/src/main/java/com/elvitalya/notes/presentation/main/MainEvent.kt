@@ -12,4 +12,6 @@ sealed class MainEvent {
 
     data class NewNote(val navController: NavController) : MainEvent()
 
+    data class OnClickFavorite(val note: Note): MainEvent()
+
 }

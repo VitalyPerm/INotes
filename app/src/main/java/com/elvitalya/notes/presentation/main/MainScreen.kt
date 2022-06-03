@@ -1,5 +1,6 @@
 package com.elvitalya.notes.presentation.main
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -26,7 +27,7 @@ import com.google.accompanist.insets.navigationBarsPadding
 
 @Composable
 fun Main(
-    viewModel: NotesListViewModel = hiltViewModel(),
+    viewModel: MainViewModel = hiltViewModel(),
 ) {
 
     var selectedItem by remember { mutableStateOf(Screens.NotesList.route) }
@@ -63,7 +64,7 @@ fun Main(
                             BottomNavigationItem(
                                 selected = selectedItem == Screens.NotesList.route,
                                 onClick = {
-                                    navController.navigate(Screens.NotesList.route){
+                                    navController.navigate(Screens.NotesList.route) {
                                         popUpTo(0)
                                     }
                                     selectedItem = Screens.NotesList.route
@@ -81,7 +82,7 @@ fun Main(
                             BottomNavigationItem(
                                 selected = selectedItem == Screens.NotesFavoriteList.route,
                                 onClick = {
-                                    navController.navigate(Screens.NotesFavoriteList.route){
+                                    navController.navigate(Screens.NotesFavoriteList.route) {
                                         popUpTo(0)
                                     }
                                     selectedItem = Screens.NotesFavoriteList.route
@@ -108,25 +109,30 @@ fun Main(
     ) {
         NavHost(
             navController = navController,
-            startDestination = if (debug) Screens.NotesList.route else Screens.PIN.route
+            startDestination = if (debug) Screens.NotesList.route else Screens.PIN.route,
+            modifier = Modifier.padding(bottom = it.calculateBottomPadding())
         ) {
             composable(Screens.NotesList.route) {
                 NotesListScreen(
-                    state = viewModel.state,
+                    notes = viewModel.state,
                     favorite = false,
-                    onClickDelete = {
+                    onClickDelete = { note ->
                         viewModel.onEvent(
-                            MainEvent.Delete(note = it)
+                            MainEvent.Delete(note = note)
                         )
                     },
-                    onClickNote = {
-                        viewModel.onEvent(MainEvent.UpdateNote(navController, it.id))
+                    onClickNote = { note ->
+                        viewModel.onEvent(MainEvent.UpdateNote(navController, note.id))
+                        bottomBarVisibility = false
+                    },
+                    onClickFavorite = { note ->
+                        viewModel.onEvent(MainEvent.OnClickFavorite(note))
                     }
                 )
             }
             composable(Screens.NotesFavoriteList.route) {
                 NotesListScreen(
-                    state = viewModel.state,
+                    notes = viewModel.state,
                     favorite = true,
                     onClickDelete = {
                         viewModel.onEvent(
@@ -135,6 +141,10 @@ fun Main(
                     },
                     onClickNote = {
                         viewModel.onEvent(MainEvent.UpdateNote(navController, it.id))
+                        bottomBarVisibility = false
+                    },
+                    onClickFavorite = {
+                        viewModel.onEvent(MainEvent.OnClickFavorite(it))
                     }
                 )
             }
