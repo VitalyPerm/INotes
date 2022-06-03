@@ -1,5 +1,6 @@
 package com.elvitalya.notes.presentation.main
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -23,6 +24,7 @@ import com.elvitalya.notes.presentation.debug
 import com.elvitalya.notes.presentation.notes_info.NoteDetailsScreen
 import com.elvitalya.notes.presentation.notes_list.NotesListScreen
 import com.elvitalya.notes.presentation.pin_code.PinCodeScreen
+import com.elvitalya.notes.theme.theme.CardBackground
 import com.google.accompanist.insets.navigationBarsPadding
 
 @Composable
@@ -46,7 +48,7 @@ fun Main(
                         bottomBarVisibility = false
                     },
                     shape = RoundedCornerShape(50),
-                    backgroundColor = Color.Yellow
+                    backgroundColor = Color.White
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Add,
@@ -59,6 +61,7 @@ fun Main(
             if (bottomBarVisibility) {
                 BottomAppBar(
                     cutoutShape = RoundedCornerShape(50),
+                    backgroundColor = Color.White,
                     content = {
                         BottomNavigation {
                             BottomNavigationItem(
@@ -76,7 +79,11 @@ fun Main(
                                     )
                                 },
                                 label = { Text(text = Screens.NotesList.route) },
-                                alwaysShowLabel = false
+                                alwaysShowLabel = false,
+                                modifier = Modifier
+                                .background(Color.White),
+                                selectedContentColor = Color.Red,
+                                unselectedContentColor = Color.Black
                             )
 
                             BottomNavigationItem(
@@ -94,10 +101,14 @@ fun Main(
                                     )
                                 },
                                 label = { Text(text = Screens.NotesFavoriteList.route) },
-                                alwaysShowLabel = false
+                                alwaysShowLabel = false,
+                                modifier = Modifier
+                                    .background(Color.White),
+                                selectedContentColor = Color.Red,
+                                unselectedContentColor = Color.Black
                             )
                         }
-                    }
+                    },
                 )
             }
         },
