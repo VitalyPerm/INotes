@@ -1,5 +1,7 @@
 package com.elvitalya.notes.presentation.notes_info
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,11 +10,12 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -21,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.elvitalya.notes.R
 import com.elvitalya.notes.presentation.TopBar
+import com.elvitalya.notes.presentation.notes_list.NEW_NOTE
 import com.elvitalya.notes.theme.theme.CardBackground
 import com.google.accompanist.insets.navigationBarsPadding
 
@@ -30,9 +34,18 @@ const val TAG = "note_info"
 @Composable
 fun NoteInfoScreen(
     viewModel: NotesInfoScreenViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    noteId: Int?
 ) {
 
+    val context = LocalContext.current
+
+    val launch by remember { mutableStateOf(true)}
+    LaunchedEffect(key1 = launch) {
+        Log.d(TAG, "NoteInfoScreen: lauch effect called")
+        val id = noteId ?: NEW_NOTE
+        viewModel.onEvent(NoteInfoEvent.GetNoteInfo(id))
+    }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val textFieldColor = TextFieldDefaults.textFieldColors(

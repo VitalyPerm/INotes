@@ -5,10 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.elvitalya.notes.Screens
+import com.elvitalya.notes.presentation.Screens
 import com.elvitalya.notes.domain.model.Note
 import com.elvitalya.notes.domain.repository.NotesRepository
-import com.elvitalya.notes.presentation.SharedNote
 import com.elvitalya.notes.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -16,6 +15,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+const val NEW_NOTE = 0
 
 @HiltViewModel
 class NotesListViewModel @Inject constructor(
@@ -39,13 +40,11 @@ class NotesListViewModel @Inject constructor(
                 delete(event.note)
             }
             is NotesListEvent.UpdateNote -> {
-                SharedNote.note = event.note
-                event.navController.navigate(Screens.Details.route)
+                event.navController.navigate("${Screens.Details.route}/${event.noteId}")
             }
 
             is NotesListEvent.NewNote -> {
-                SharedNote.note = null
-                event.navController.navigate(Screens.Details.route)
+                event.navController.navigate("${Screens.Details.route}/$NEW_NOTE")
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.elvitalya.notes
+package com.elvitalya.notes.presentation
 
 import android.content.Context
 import android.os.Bundle
@@ -15,9 +15,11 @@ import androidx.core.view.WindowCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.elvitalya.notes.presentation.notes_info.NoteInfoScreen
 import com.elvitalya.notes.presentation.notes_list.NotesListScreen
 import com.elvitalya.notes.presentation.pin_code.PinCodeScreen
@@ -27,6 +29,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+const val debug = true
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -66,13 +69,20 @@ fun Main() {
 
     NavHost(
         navController = navController,
-        startDestination = Screens.PIN.route
+        startDestination = if (debug) Screens.NotesList.route else Screens.PIN.route
     ) {
         composable(Screens.NotesList.route) {
             NotesListScreen(navController = navController)
         }
-        composable(Screens.Details.route) {
-            NoteInfoScreen(navController = navController)
+        composable(
+            "${Screens.Details.route}/{id}",
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.IntType
+                })
+        ) {
+            val id = it.arguments?.getInt("id")
+            NoteInfoScreen(navController = navController, noteId = id)
         }
         composable(Screens.PIN.route) {
             PinCodeScreen(navController = navController)

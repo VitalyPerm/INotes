@@ -6,4 +6,6 @@ sealed class NoteInfoEvent {
     data class TitleChanged(val value: String) : NoteInfoEvent()
 
     data class DescriptionChanged(val value: String) : NoteInfoEvent()
+
+    data class GetNoteInfo(val value: Int) : NoteInfoEvent()
 }

@@ -73,7 +73,7 @@ fun NotesListScreen(
                         )
                     },
                     onClick = {
-                        viewModel.onEvent(NotesListEvent.UpdateNote(note, navController))
+                        viewModel.onEvent(NotesListEvent.UpdateNote(note, navController, note.id))
                     }
                 )
             }

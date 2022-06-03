@@ -1,21 +1,17 @@
 package com.elvitalya.notes.presentation.pin_code
 
 import android.app.Application
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.elvitalya.notes.Screens
-import com.elvitalya.notes.dataStore
+import com.elvitalya.notes.presentation.Screens
+import com.elvitalya.notes.presentation.dataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
