@@ -12,12 +12,12 @@ import com.google.accompanist.insets.statusBarsPadding
 
 @Composable
 fun TopBar(
+    modifier: Modifier = Modifier,
     title: String,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
-        modifier = Modifier
-            .statusBarsPadding(),
+        modifier = modifier,
         backgroundColor = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.secondary,
         title = {

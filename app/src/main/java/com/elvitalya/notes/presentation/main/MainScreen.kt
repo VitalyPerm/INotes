@@ -29,6 +29,7 @@ import com.elvitalya.notes.presentation.notes_info.NoteDetailsScreen
 import com.elvitalya.notes.presentation.notes_list.NotesListScreen
 import com.elvitalya.notes.presentation.pin_code.PinCodeScreen
 import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsPadding
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
@@ -41,7 +42,12 @@ fun Main(
 
     Scaffold(
         topBar = {
-            TopBar(title = stringResource(id = R.string.note_list_title))
+            if (bottomBarVisibility) {
+                TopBar(
+                    title = stringResource(id = R.string.note_list_title),
+                    modifier = Modifier.statusBarsPadding()
+                )
+            }
         },
         floatingActionButton = {
             if (bottomBarVisibility) {
