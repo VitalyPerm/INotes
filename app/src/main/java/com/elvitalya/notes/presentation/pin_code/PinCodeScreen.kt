@@ -1,5 +1,9 @@
 package com.elvitalya.notes.presentation.pin_code
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,6 +30,7 @@ import com.elvitalya.notes.theme.theme.CardBackground
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun PinCodeScreen(
     viewModel: PinCodeViewModel = hiltViewModel(),
@@ -39,6 +44,8 @@ fun PinCodeScreen(
         unfocusedIndicatorColor = CardBackground,
         backgroundColor = CardBackground
     )
+
+    if(viewModel.authSuccess) goForward()
 
     var passVisibility by remember { mutableStateOf(false) }
 
@@ -60,9 +67,15 @@ fun PinCodeScreen(
         horizontalAlignment = CenterHorizontally
     ) {
 
-        Spacer(modifier = Modifier.height(200.dp))
+        Spacer(modifier = Modifier.height(100.dp))
 
-        Text(text = stringResource(id = if (viewModel.pinEmpty.value) R.string.pin_code_new else R.string.pin_code_enter))
+        Text(
+            text = stringResource(
+                id = if (viewModel.pinEmpty.value) R.string.pin_code_new
+                else R.string.pin_code_enter
+            ),
+            color = Color.White
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -113,6 +126,24 @@ fun PinCodeScreen(
                     }
                 }
             )
+        )
+
+        Spacer(modifier = Modifier.height(60.dp))
+
+        Text(
+            text = stringResource(R.string.pin_code_use_biometry),
+            color = Color.White
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_fingerprint),
+            contentDescription = "fingerPrint",
+            modifier = Modifier
+            .clickable {
+                viewModel.launchBiometric()
+            }
         )
     }
 }

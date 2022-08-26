@@ -14,6 +14,7 @@
 
 
     <string name="pin_code_new">Придумайте пин код</string>
+    <string name="pin_code_use_biometry">Использовать биометрию</string>
     <string name="pin_code_enter">Введите пин код</string>
     <string name="pin_code_ok">Введите пин код</string>
 

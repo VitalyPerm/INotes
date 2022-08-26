@@ -32,7 +32,6 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-
             val systemUiController = rememberSystemUiController()
 
             SideEffect {

@@ -27,7 +27,6 @@ import com.elvitalya.notes.presentation.main.NEW_NOTE
 import com.elvitalya.notes.theme.theme.CardBackground
 import com.google.accompanist.insets.navigationBarsPadding
 
-const val TAG = "note_info"
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -35,7 +34,7 @@ fun NoteDetailsScreen(
     viewModel: NotesDetailsScreenViewModel = hiltViewModel(),
     navController: NavController,
     noteId: Int?,
-    goBack: () -> Unit
+    goBack: () -> Unit,
 ) {
 
     BackHandler {
@@ -130,5 +129,7 @@ fun NoteDetailsScreen(
         }
     }
 }
+
+
 
 

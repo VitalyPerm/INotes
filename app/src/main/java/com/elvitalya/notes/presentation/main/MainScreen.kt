@@ -1,5 +1,7 @@
 package com.elvitalya.notes.presentation.main
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -28,6 +30,7 @@ import com.elvitalya.notes.presentation.notes_list.NotesListScreen
 import com.elvitalya.notes.presentation.pin_code.PinCodeScreen
 import com.google.accompanist.insets.navigationBarsPadding
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun Main(
     viewModel: MainViewModel = hiltViewModel(),
