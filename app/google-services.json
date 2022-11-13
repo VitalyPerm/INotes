@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "501646418492",
+    "project_id": "notes-888be",
+    "storage_bucket": "notes-888be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501646418492:android:2d98f676adc774431c5939",
+        "android_client_info": {
+          "package_name": "com.elvitalya.notes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501646418492-27ejn424rheodm4hpqufdfjft2eimm9v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH130wmzmkaHWWiTLeEFBy03pTIhT3jyw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501646418492-27ejn424rheodm4hpqufdfjft2eimm9v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
